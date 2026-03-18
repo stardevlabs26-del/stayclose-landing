@@ -1,75 +1,1175 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>StayClose — Your AI Guardian</title>
-<style>
-body{margin:0;font-family:Arial;background:#050b16;color:white}
-section{padding:80px 20px;max-width:1100px;margin:auto}
-h1{font-size:52px;line-height:1.1}
-.hero{display:flex;gap:40px;align-items:center}
-.btn{padding:14px 22px;border-radius:30px;background:#67e8f9;color:#000;font-weight:bold;text-decoration:none}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
-.card{background:#0b1830;padding:20px;border-radius:16px}
-.video{margin-top:40px}
-img{width:100%;border-radius:16px}
-@media(max-width:900px){.hero{flex-direction:column}.features{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>StayClose — Your AI Guardian Angel</title>
+  <meta
+    name="description"
+    content="StayClose is a life-saving AI safety app with live SOS, guardian tracking, AI voice and scream detection, emergency recording, and an encrypted evidence vault."
+  />
+  <style>
+    :root {
+      --bg: #040914;
+      --bg2: #081224;
+      --panel: rgba(12, 24, 45, 0.78);
+      --panel2: rgba(255,255,255,0.05);
+      --line: rgba(255,255,255,0.1);
+      --text: #edf5ff;
+      --muted: #9eb5cf;
+      --cyan: #72e9ff;
+      --blue: #79a7ff;
+      --gold: #f2d77c;
+      --red: #ff6d85;
+      --green: #44d39b;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 24px;
+      --max: 1220px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(114,233,255,.12), transparent 25%),
+        radial-gradient(circle at 85% 20%, rgba(121,167,255,.12), transparent 25%),
+        radial-gradient(circle at 50% 80%, rgba(242,215,124,.06), transparent 22%),
+        linear-gradient(180deg, #02060e 0%, #06101d 35%, #081224 100%);
+      overflow-x: hidden;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img, video { display: block; width: 100%; }
+
+    .bg-grid,
+    .glow,
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .bg-grid {
+      background-image:
+        linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: radial-gradient(circle at center, black 28%, transparent 82%);
+      opacity: .35;
+      z-index: 0;
+    }
+
+    .glow {
+      background:
+        radial-gradient(circle at 20% 10%, rgba(114,233,255,.08), transparent 24%),
+        radial-gradient(circle at 80% 18%, rgba(121,167,255,.08), transparent 24%);
+      filter: blur(30px);
+      z-index: 0;
+    }
+
+    #particles { z-index: 0; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      backdrop-filter: blur(16px);
+      background: rgba(3, 8, 17, .68);
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .nav {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(135deg, rgba(114,233,255,.2), rgba(121,167,255,.18));
+      position: relative;
+      box-shadow: inset 0 0 24px rgba(114,233,255,.12), 0 10px 30px rgba(114,233,255,.08);
+    }
+
+    .brand-mark::before {
+      content: "";
+      position: absolute;
+      inset: 9px;
+      border-radius: 50%;
+      border: 2px solid rgba(114,233,255,.8);
+      border-top-color: transparent;
+      transform: rotate(35deg);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+
+    .cta,
+    .ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 14px 22px;
+      border-radius: 999px;
+      font-weight: 800;
+      transition: .25s ease;
+      cursor: pointer;
+    }
+
+    .cta {
+      background: linear-gradient(135deg, var(--cyan), #bff8ff 48%, var(--gold));
+      color: #04111c;
+      box-shadow: 0 16px 40px rgba(114,233,255,.22);
+    }
+
+    .ghost {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text);
+    }
+
+    .cta:hover, .ghost:hover {
+      transform: translateY(-2px);
+    }
+
+    .wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 90px 20px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #d8e9ff;
+      text-transform: uppercase;
+      font-size: .82rem;
+      letter-spacing: .03em;
+      box-shadow: var(--shadow);
+    }
+
+    .hero {
+      min-height: calc(100vh - 78px);
+      display: grid;
+      align-items: center;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 42px;
+      padding-top: 40px;
+      padding-bottom: 70px;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 7vw, 6rem);
+      line-height: .95;
+      letter-spacing: -.05em;
+      margin: 18px 0;
+    }
+
+    .grad {
+      background: linear-gradient(120deg, #ffffff 0%, #d9edff 35%, #8eeeff 68%, #f2d77c 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-copy p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.08rem;
+      max-width: 760px;
+      margin: 0 0 28px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-bottom: 28px;
+    }
+
+    .trust-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .mini {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.1);
+      color: #d8e9ff;
+      font-size: .92rem;
+    }
+
+    .device {
+      max-width: 520px;
+      margin-inline: auto;
+      position: relative;
+      transform: perspective(1200px) rotateY(-11deg) rotateX(5deg);
+    }
+
+    .device::before {
+      content: "";
+      position: absolute;
+      inset: -40px;
+      background: radial-gradient(circle, rgba(114,233,255,.22), transparent 58%);
+      filter: blur(28px);
+      z-index: -1;
+      animation: pulseGlow 4s ease-in-out infinite;
+    }
+
+    .phone {
+      border-radius: 38px;
+      padding: 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.11), rgba(255,255,255,.03));
+      box-shadow: 0 40px 100px rgba(0,0,0,.42);
+      backdrop-filter: blur(18px);
+    }
+
+    .screen {
+      min-height: 700px;
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at top, rgba(121,167,255,.16), transparent 28%),
+        linear-gradient(180deg, #081526, #0a1c33 54%, #091320 100%);
+    }
+
+    .statusbar {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 18px;
+      color: #dcecff;
+      font-size: .82rem;
+    }
+
+    .app-hero {
+      padding: 10px 18px 22px;
+      text-align: center;
+    }
+
+    .guardian-orb {
+      width: 130px;
+      height: 130px;
+      margin: 12px auto 18px;
+      border-radius: 50%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(121,167,255,.45) 26%, rgba(114,233,255,.18) 42%, transparent 62%);
+      box-shadow: 0 0 0 16px rgba(114,233,255,.05), 0 0 60px rgba(114,233,255,.18);
+      position: relative;
+    }
+
+    .guardian-orb::before,
+    .guardian-orb::after {
+      content: "";
+      position: absolute;
+      inset: -12px;
+      border-radius: 50%;
+      border: 1px solid rgba(114,233,255,.28);
+      animation: ping 3s linear infinite;
+    }
+
+    .guardian-orb::after {
+      inset: -28px;
+      animation-delay: 1.2s;
+      opacity: .6;
+    }
+
+    .screen h3 {
+      margin: 6px 0;
+      font-size: 1.6rem;
+      letter-spacing: -.03em;
+    }
+
+    .lead {
+      max-width: 290px;
+      margin: 0 auto 20px;
+      color: #9eb8d8;
+      line-height: 1.6;
+      font-size: .96rem;
+    }
+
+    .map-card, .feed-card, .vault-card {
+      margin: 14px 14px 0;
+      padding: 16px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.05);
+      backdrop-filter: blur(10px);
+    }
+
+    .map {
+      height: 175px;
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at 25% 40%, rgba(114,233,255,.15), transparent 16%),
+        radial-gradient(circle at 72% 56%, rgba(242,215,124,.14), transparent 18%),
+        linear-gradient(180deg, rgba(14,38,69,.95), rgba(10,26,47,.95));
+      border: 1px solid rgba(255,255,255,.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .safe-zone, .route, .pathline, .dot { position: absolute; }
+
+    .safe-zone {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      border: 2px solid rgba(68,211,155,.55);
+      background: rgba(68,211,155,.08);
+      left: 26px;
+      top: 28px;
+      box-shadow: 0 0 0 18px rgba(68,211,155,.04);
+    }
+
+    .route {
+      width: 190px;
+      height: 6px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(114,233,255,.1), rgba(114,233,255,1), rgba(242,215,124,1));
+      top: 92px;
+      left: 106px;
+      transform: rotate(28deg);
+      box-shadow: 0 0 18px rgba(114,233,255,.45);
+    }
+
+    .pathline {
+      width: 220px;
+      height: 220px;
+      right: -40px;
+      top: 20px;
+      border: 1px dashed rgba(255,255,255,.08);
+      border-radius: 24px;
+      transform: rotate(18deg);
+    }
+
+    .dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 0 0 10px rgba(255,109,133,.14), 0 0 24px rgba(255,109,133,.55);
+      right: 52px;
+      top: 62px;
+      animation: pulseDanger 2s infinite;
+    }
+
+    .meta {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-top: 12px;
+      color: #dcecff;
+      font-size: .88rem;
+    }
+
+    .tag-red, .tag-green, .tag-muted {
+      padding: 8px 10px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: .75rem;
+      letter-spacing: .03em;
+    }
+
+    .tag-red {
+      background: rgba(255,109,133,.12);
+      color: #ffc8d2;
+      border: 1px solid rgba(255,109,133,.26);
+    }
+
+    .tag-green {
+      background: rgba(68,211,155,.12);
+      color: #bdf4de;
+      border: 1px solid rgba(68,211,155,.24);
+    }
+
+    .tag-muted {
+      background: rgba(255,255,255,.06);
+      color: #d8e9ff;
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .panic-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      padding: 14px;
+    }
+
+    .panic {
+      min-height: 92px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font-weight: 900;
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .panic.sos {
+      background: linear-gradient(180deg, rgba(255,109,133,.22), rgba(255,109,133,.06));
+      box-shadow: inset 0 0 24px rgba(255,109,133,.12);
+    }
+
+    .panic.shake {
+      background: linear-gradient(180deg, rgba(114,233,255,.14), rgba(114,233,255,.04));
+      box-shadow: inset 0 0 24px rgba(114,233,255,.12);
+    }
+
+    .section-head {
+      max-width: 860px;
+      margin-bottom: 34px;
+    }
+
+    .section-head h2 {
+      font-size: clamp(2rem, 4.5vw, 4rem);
+      line-height: 1;
+      letter-spacing: -.045em;
+      margin: 16px 0 12px;
+    }
+
+    .section-head p {
+      color: var(--muted);
+      line-height: 1.8;
+      font-size: 1.04rem;
+      max-width: 760px;
+      margin: 0;
+    }
+
+    .stats,
+    .features,
+    .use-grid,
+    .gallery-grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .features {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .card,
+    .stat,
+    .gallery-card,
+    .faq-item,
+    .final-cta,
+    .video-wrap,
+    .image-panel {
+      border: 1px solid rgba(255,255,255,.1);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .stat,
+    .card,
+    .gallery-card,
+    .image-panel {
+      padding: 24px;
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 3.4rem);
+      font-weight: 900;
+      letter-spacing: -.04em;
+      margin-bottom: 8px;
+    }
+
+    .icon {
+      width: 54px;
+      height: 54px;
+      display: grid;
+      place-items: center;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(121,167,255,.18), rgba(114,233,255,.14));
+      border: 1px solid rgba(255,255,255,.12);
+      margin-bottom: 18px;
+      font-size: 1.4rem;
+    }
+
+    .card h3,
+    .stat h3,
+    .gallery-card h3,
+    .faq-item h3 {
+      margin: 0 0 10px;
+      font-size: 1.22rem;
+      letter-spacing: -.03em;
+    }
+
+    .card p,
+    .stat p,
+    .gallery-card p,
+    .faq-answer {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .media-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .video-wrap,
+    .image-panel {
+      padding: 22px;
+    }
+
+    .video-shell {
+      overflow: hidden;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: #030914;
+      margin-top: 16px;
+    }
+
+    .video-shell video {
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      background: #000;
+    }
+
+    .gallery-grid {
+      grid-template-columns: 1fr 1fr;
+      margin-top: 16px;
+    }
+
+    .gallery-card {
+      overflow: hidden;
+      padding: 0;
+    }
+
+    .gallery-card img {
+      height: 260px;
+      object-fit: cover;
+    }
+
+    .gallery-copy {
+      padding: 18px;
+    }
+
+    .use-grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .faq {
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      text-align: left;
+      padding: 22px 24px;
+      font: inherit;
+      font-weight: 800;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 24px;
+      transition: max-height .35s ease, padding .35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 220px;
+      padding: 0 24px 24px;
+    }
+
+    .symbol {
+      font-size: 1.35rem;
+      color: var(--cyan);
+      transition: transform .25s ease;
+    }
+
+    .faq-item.open .symbol { transform: rotate(45deg); }
+
+    .final-cta {
+      padding: 30px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 20px;
+      align-items: center;
+      background:
+        radial-gradient(circle at 85% 30%, rgba(114,233,255,.14), transparent 22%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+    }
+
+    .final-cta h2 {
+      margin: 0 0 12px;
+      font-size: clamp(2rem, 4vw, 3.6rem);
+      letter-spacing: -.05em;
+      line-height: .98;
+    }
+
+    .final-cta p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 650px;
+    }
+
+    .final-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 28px 20px 60px;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes pulseGlow {
+      0%,100% { transform: scale(1); opacity: .7; }
+      50% { transform: scale(1.08); opacity: 1; }
+    }
+
+    @keyframes ping {
+      0% { transform: scale(.96); opacity: .7; }
+      70% { transform: scale(1.18); opacity: 0; }
+      100% { opacity: 0; }
+    }
+
+    @keyframes pulseDanger {
+      0%,100% { transform: scale(1); }
+      50% { transform: scale(1.18); }
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .media-section,
+      .final-cta,
+      .stats,
+      .features,
+      .use-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .device { transform: none; }
+      .final-actions { justify-content: flex-start; }
+    }
+
+    @media (max-width: 760px) {
+      .nav-links { display: none; }
+      section { padding: 72px 16px; }
+      .nav { padding: 14px 16px; }
+      .hero-copy h1 { font-size: clamp(2.6rem, 14vw, 4.3rem); }
+      .screen { min-height: 620px; }
+      .panic-row,
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+      footer { padding-inline: 16px; }
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-grid"></div>
+  <div class="glow"></div>
+  <canvas id="particles"></canvas>
 
-<section class="hero">
-<div>
-<h1>Your AI Guardian Angel that acts when you can’t.</h1>
-<p>StayClose is a life-saving safety app designed to protect you and your loved ones in real-world emergencies. It detects danger, sends alerts, records evidence, and shares your location instantly when seconds matter most.</p>
-<a class="btn">Get Early Access</a>
-</div>
-<div>
-<img src="demo1.jpg" alt="app demo" />
-</div>
-</section>
+  <header>
+    <nav class="nav">
+      <a class="brand" href="#top">
+        <div class="brand-mark"></div>
+        <div>
+          <div>StayClose</div>
+          <div style="font-size:.78rem;color:var(--muted);font-weight:600;margin-top:2px;">Your AI Guardian Angel</div>
+        </div>
+      </a>
 
-<section>
-<h2>Built to protect when you can’t</h2>
-<div class="features">
-<div class="card">Live GPS tracking and instant SOS alerts</div>
-<div class="card">AI voice and scream detection</div>
-<div class="card">Automatic emergency video recording</div>
-<div class="card">Encrypted evidence vault for investigations</div>
-<div class="card">Silent shake alert when you cannot speak</div>
-<div class="card">Family live tracking and notifications</div>
-</div>
-</section>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#demo">Demo</a>
+        <a href="#vault">Vault</a>
+        <a href="#faq">FAQ</a>
+      </div>
 
-<section class="video">
-<h2>See StayClose in action</h2>
-<video controls width="100%">
-<source src="demo.mp4" type="video/mp4">
-</video>
-</section>
+      <a class="cta" href="#demo">Watch Demo</a>
+    </nav>
+  </header>
 
-<section>
-<h2>Why StayClose matters</h2>
-<p>People don’t always have time to react in dangerous situations. StayClose acts instantly — detecting distress, alerting contacts, and recording evidence automatically. It’s designed for real emergencies, not just convenience.</p>
-</section>
+  <div class="wrapper" id="top">
+    <section class="hero">
+      <div class="hero-copy reveal">
+        <div class="eyebrow">AI-Powered Personal Safety • Built for Families, Women & Loved Ones</div>
+        <h1>
+          Your <span class="grad">AI Guardian Angel</span><br />
+          that acts when you can’t.
+        </h1>
+        <p>
+          StayClose is a life-saving safety app built to protect the people who matter most. It can detect danger, send instant SOS alerts, track loved ones in real time, start emergency recording, and preserve vital evidence when seconds count and you cannot act for yourself.
+        </p>
 
-<section>
-<h2>Who it’s for</h2>
-<div class="features">
-<div class="card">Women walking alone</div>
-<div class="card">Children and families</div>
-<div class="card">Elderly and vulnerable individuals</div>
-</div>
-</section>
+        <div class="hero-actions">
+          <a class="cta" href="#demo">See StayClose in Action</a>
+          <a class="ghost" href="#features">Explore Features</a>
+        </div>
 
-<section>
-<h2>Join the mission</h2>
-<p>StayClose is more than an app. It’s a guardian system designed to protect people when they need it most.</p>
-<a class="btn">Join Waitlist</a>
-</section>
+        <div class="trust-row">
+          <div class="mini">Live GPS SOS</div>
+          <div class="mini">AI Voice & Scream Detection</div>
+          <div class="mini">Instant Emergency Recording</div>
+          <div class="mini">Encrypted Police Evidence Vault</div>
+        </div>
+      </div>
 
+      <div class="device reveal">
+        <div class="phone">
+          <div class="screen">
+            <div class="statusbar">
+              <span>9:41</span>
+              <span>StayClose Secure</span>
+              <span>100%</span>
+            </div>
+
+            <div class="app-hero">
+              <div class="guardian-orb"></div>
+              <h3>AI Guardian Active</h3>
+              <p class="lead">Monitoring distress signals, route changes, emergency gestures and live safety status.</p>
+            </div>
+
+            <div class="map-card">
+              <div class="map">
+                <div class="safe-zone"></div>
+                <div class="pathline"></div>
+                <div class="route"></div>
+                <div class="dot"></div>
+              </div>
+              <div class="meta">
+                <span>Live Tracking • Loved ones notified</span>
+                <span class="tag-red">Emergency Route Deviation</span>
+              </div>
+            </div>
+
+            <div class="panic-row">
+              <div class="panic sos">TAP SOS<br><span style="font-size:.84rem;color:#ffd2da;font-weight:600;">Share GPS instantly</span></div>
+              <div class="panic shake">SHAKE TO ALERT<br><span style="font-size:.84rem;color:#bdefff;font-weight:600;">Silent emergency trigger</span></div>
+            </div>
+
+            <div class="feed-card">
+              <div class="meta">
+                <span>AI Distress Detection</span>
+                <span class="tag-green">Triggered Automatically</span>
+              </div>
+              <div style="margin-top:10px;color:#dcecff;font-weight:800;">
+                Voice pattern anomaly detected. Scream profile matched. Emergency recording started.
+              </div>
+            </div>
+
+            <div class="vault-card">
+              <div class="meta">
+                <span>StayClose Vault</span>
+                <span class="tag-muted">Encrypted Evidence</span>
+              </div>
+              <div style="display:grid;gap:10px;margin-top:12px;color:#cfe1f6;font-size:.92rem;">
+                <div>• Video clip secured for investigation</div>
+                <div>• Audio evidence time-stamped</div>
+                <div>• GPS route history preserved</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head reveal">
+        <div class="eyebrow">Why StayClose Matters</div>
+        <h2>Built for the moments when panic, silence and lost time can change everything.</h2>
+        <p>
+          StayClose combines intelligent detection, emergency response automation, guardian tracking and evidence protection into one powerful system designed for real-world danger.
+        </p>
+      </div>
+
+      <div class="stats">
+        <div class="stat reveal">
+          <div class="stat-number" data-target="24">0</div>
+          <h3>Always watching for danger</h3>
+          <p>Continuous guardian monitoring for voice distress, emergency triggers, route changes and live safety signals.</p>
+        </div>
+        <div class="stat reveal">
+          <div class="stat-number" data-target="3">0</div>
+          <h3>Critical evidence layers</h3>
+          <p>Video, audio and live location history can be captured and preserved instantly when an emergency begins.</p>
+        </div>
+        <div class="stat reveal">
+          <div class="stat-number" data-target="1">0</div>
+          <h3>One intelligent safety system</h3>
+          <p>SOS, guardian tracking, distress detection, emergency recording and secure evidence storage in one app.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="features">
+      <div class="section-head reveal">
+        <div class="eyebrow">Protection Features</div>
+        <h2>Every feature is built to protect faster, smarter and more effectively.</h2>
+        <p>
+          StayClose is designed to act when someone is frightened, under pressure, physically unable to respond, or in too much danger to explain what is happening.
+        </p>
+      </div>
+
+      <div class="features">
+        <div class="card reveal">
+          <div class="icon">📍</div>
+          <h3>One-Tap SOS + Live GPS</h3>
+          <p>Send your exact location to trusted contacts instantly so they can see where you are and respond immediately.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🤫</div>
+          <h3>Silent Shake Alert</h3>
+          <p>Trigger an emergency alert without speaking, unlocking your phone or drawing attention to yourself.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🎤</div>
+          <h3>AI Voice & Scream Detection</h3>
+          <p>The AI Guardian listens for distress patterns, panic and screams so it can react when a user cannot.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🎥</div>
+          <h3>Instant Emergency Recording</h3>
+          <p>Automatic video and audio capture can begin immediately to preserve what happened in real time.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">🧠</div>
+          <h3>Route Learning & Deviation Alerts</h3>
+          <p>StayClose can understand normal movement patterns and flag route changes when something feels wrong.</p>
+        </div>
+
+        <div class="card reveal">
+          <div class="icon">👨‍👩‍👧</div>
+          <h3>Guardian Tracking for Loved Ones</h3>
+          <p>Parents, partners and trusted contacts can stay informed with live location visibility and emergency notifications.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo">
+      <div class="section-head reveal">
+        <div class="eyebrow">App Demo</div>
+        <h2>See how StayClose looks, feels and responds in an emergency.</h2>
+        <p>
+          Add your own demo video and app imagery below by uploading the files into the same GitHub folder as this page.
+        </p>
+      </div>
+
+      <div class="media-section">
+        <div class="video-wrap reveal">
+          <div class="eyebrow">Demo Video</div>
+          <div class="video-shell">
+            <video controls poster="demo1.jpg">
+              <source src="demo.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <div class="image-panel reveal">
+          <div class="eyebrow">App Images</div>
+          <div class="gallery-grid">
+            <div class="gallery-card">
+              <img src="demo1.jpg" alt="StayClose app image 1" />
+              <div class="gallery-copy">
+                <h3>Emergency protection</h3>
+                <p>Use this image for your strongest app mockup, alert screen, or cinematic safety visual.</p>
+              </div>
+            </div>
+            <div class="gallery-card">
+              <img src="demo2.jpg" alt="StayClose app image 2" />
+              <div class="gallery-copy">
+                <h3>Guardian reassurance</h3>
+                <p>Use this image for live tracking, loved-one monitoring, or your best promotional app screen.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="vault">
+      <div class="section-head reveal">
+        <div class="eyebrow">Evidence Vault</div>
+        <h2>The Vault turns emergency moments into usable evidence.</h2>
+        <p>
+          StayClose can capture video, audio and location data during emergencies and preserve them in an encrypted evidence vault for investigation, incident review and critical reporting.
+        </p>
+      </div>
+
+      <div class="use-grid">
+        <div class="card reveal">
+          <h3>Automatic emergency recording</h3>
+          <p>Video and audio can start the moment danger is detected or manually triggered.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Investigation-ready storage</h3>
+          <p>Time-stamped clips, location history and supporting metadata are held in one secure place.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Critical proof preservation</h3>
+          <p>Designed to protect evidence that could otherwise be lost in chaos, fear or delay.</p>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-head reveal">
+        <div class="eyebrow">Who StayClose Helps</div>
+        <h2>Protection for the people most likely to need help fast.</h2>
+        <p>
+          StayClose is designed for everyday life, real emergencies and vulnerable moments where speed, visibility and smart response matter most.
+        </p>
+      </div>
+
+      <div class="use-grid">
+        <div class="card reveal">
+          <h3>Women walking alone</h3>
+          <p>Silent alerts, distress detection and evidence capture can activate in seconds without drawing attention.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Children and families</h3>
+          <p>Parents can track loved ones, receive alerts and gain reassurance in situations where every second matters.</p>
+        </div>
+        <div class="card reveal">
+          <h3>Elderly and vulnerable users</h3>
+          <p>StayClose provides an additional safety layer for people who may need help but cannot always react quickly.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq">
+      <div class="section-head reveal">
+        <div class="eyebrow">FAQ</div>
+        <h2>Common questions about how StayClose protects people.</h2>
+      </div>
+
+      <div class="faq">
+        <div class="faq-item reveal open">
+          <button class="faq-question" type="button">
+            What makes StayClose different from ordinary location-sharing apps?
+            <span class="symbol">+</span>
+          </button>
+          <div class="faq-answer">
+            StayClose is designed as an AI Guardian system, not just a map. It combines live tracking, SOS, silent alerts, distress detection, emergency recording and encrypted evidence storage in one intelligent safety platform.
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Can StayClose help if someone cannot speak or unlock their phone?
+            <span class="symbol">+</span>
+          </button>
+          <div class="faq-answer">
+            Yes. That is one of its most important purposes. Silent alerts, distress detection and automated emergency actions are designed to help when someone is scared, under pressure or physically unable to respond normally.
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button">
+            What is the StayClose Vault?
+            <span class="symbol">+</span>
+          </button>
+          <div class="faq-answer">
+            The StayClose Vault is a secure evidence area for emergency video, audio and location records. It is designed to help preserve critical proof when it may later be needed for incident review or investigation.
+          </div>
+        </div>
+
+        <div class="faq-item reveal">
+          <button class="faq-question" type="button">
+            Who is StayClose for?
+            <span class="symbol">+</span>
+          </button>
+          <div class="faq-answer">
+            Families, women, children, elderly users, vulnerable individuals, lone workers and anyone who wants a faster, smarter layer of personal protection.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="final-cta reveal">
+        <div>
+          <div class="eyebrow">Final Call</div>
+          <h2>Bring a life-saving guardian into the moments that matter most.</h2>
+          <p>
+            StayClose is more than an app. It is a real-time guardian system designed to protect people, alert loved ones, record what matters and respond when seconds count.
+          </p>
+        </div>
+        <div class="final-actions">
+          <a class="cta" href="#demo">Watch Demo</a>
+          <a class="ghost" href="#top">Back to Top</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    <div>© <span id="year"></span> StayClose. All rights reserved.</div>
+    <div>StayClose — Your AI Guardian Angel</div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in");
+          if (entry.target.matches(".stat-number")) startCounter(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll(".reveal, .stat-number").forEach(el => observer.observe(el));
+
+    const counted = new WeakSet();
+    function startCounter(el) {
+      if (counted.has(el)) return;
+      counted.add(el);
+      const target = Number(el.dataset.target || 0);
+      const duration = 1500;
+      const start = performance.now();
+
+      function tick(now) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.floor(target * eased);
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    document.querySelectorAll(".faq-question").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("open");
+      });
+    });
+
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const count = Math.min(80, Math.floor(window.innerWidth / 18));
+      particles = Array.from({ length: count }, () => ({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.8 + 0.4,
+        a: Math.random() * Math.PI * 2,
+        s: Math.random() * 0.3 + 0.08,
+        v: Math.random() * 0.25 + 0.04
+      }));
+    }
+
+    resize();
+    window.addEventListener("resize", resize);
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => {
+        p.a += 0.0025;
+        p.y -= p.v;
+        p.x += Math.sin(p.a) * p.s;
+        if (p.y < -10) {
+          p.y = canvas.height + 10;
+          p.x = Math.random() * canvas.width;
+        }
+        ctx.beginPath();
+        ctx.fillStyle = "rgba(190, 235, 255, 0.55)";
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
 </body>
 </html>
-
